@@ -17,5 +17,11 @@ export default createMuiTheme({
     success: {
       main: '#BFFFBC'
     },
+    white: {
+      main: '#F6F7F2'
+    },
+    gray: {
+      main: '#ededed'
+    }
   },
 });

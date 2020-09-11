@@ -5,21 +5,30 @@ import {
 } from 'react-router-dom';
 
 import BountyFeed from './views/bounty_feed';
+import About from './views/about';
 
-export const Routes = {
+const RouteObjects = {
+  About: {
+    path: '/',
+    route: About,
+    title: 'About'
+  },
   AllBounties: {
     path: '/bounties',
-    route: <BountyFeed />,
+    route: BountyFeed,
     title: 'Bounties'
+  },
+  BadRoute: {
+    path: '*',
+    route: () => (<div>404</div>),
+    title: '404'
   }
 };
 
 export default () => (
   <Switch>
-    {Object.keys(Routes).map(key => (
-      <Route path={`${Routes[key].path}`} key={Routes[key].path}>
-        {Routes[key].route}
-      </Route>
-    ))}
+    <Route exact path={`${RouteObjects.About.path}`} component={RouteObjects.About.route} />
+    <Route path={`${RouteObjects.AllBounties.path}`} component={RouteObjects.AllBounties.route} />
+    <Route path={`${RouteObjects.BadRoute.path}`} component={RouteObjects.BadRoute.route} />
   </Switch>
 );
