@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import {
-  ThemeProvider, AppBar, Button, makeStyles
+  ThemeProvider, AppBar, Button
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import {
   BrowserRouter as Router,
   Link
 } from 'react-router-dom';
+import Web3Connection from './web3_connection';
 import Routes from './Routes';
 import StickerFooter from './components/StickyFooter';
 
@@ -18,7 +19,7 @@ import './app.css';
 
 class App extends Component {
   componentDidMount() {
-    // Unimplemented
+    // unimplemented
   }
 
   render() {

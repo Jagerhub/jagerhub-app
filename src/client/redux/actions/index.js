@@ -1,1 +1,3 @@
-export * from './bounty-actions';
+import * as EthActions from './eth-actions';
+
+export default EthActions;
