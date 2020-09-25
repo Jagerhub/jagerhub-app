@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { defaultProps } from 'prop-types';
 import Template from './template';
 import Actions from '../../redux/actions';
 
@@ -24,25 +24,24 @@ class BountyFeed extends Component {
     fetchBountyIds();
   }
 
-  createBountyWithAccount() {
+  createBountyWithAccount(newBounty) {
     const { createBounty } = this.props;
-    const newBounty = {
-      repoLink: 'link',
-      reward: 5,
-      tag: 'ABCD',
-      title: 'TITLE',
-      desc: 'short desc'
-    };
     const params = Object.values(newBounty);
     createBounty(...params);
   }
 
   render() {
-    const { bountyIds } = this.props;
+    const {
+      bountyIds, showBountyModal, enableModal, disableModal, bountyCreating
+    } = this.props;
     return (
       <Template
-        clickCreateBounty={() => this.createBountyWithAccount()}
+        createBounty={newBounty => this.createBountyWithAccount(newBounty)}
         bountyIds={bountyIds}
+        showBountyModal={showBountyModal}
+        enableModal={enableModal}
+        disableModal={disableModal}
+        bountyCreating={bountyCreating}
       />
     );
   }
@@ -54,19 +53,31 @@ BountyFeed.propTypes = {
   contract: PropTypes.any.isRequired,
   bountyIds: PropTypes.array.isRequired,
   fetchBountyIds: PropTypes.func.isRequired,
-  createBounty: PropTypes.func.isRequired
+  createBounty: PropTypes.func.isRequired,
+  showBountyModal: PropTypes.bool.isRequired,
+  enableModal: PropTypes.func.isRequired,
+  disableModal: PropTypes.func.isRequired,
+  bountyCreating: PropTypes.bool
+};
+
+BountyFeed.defaultProps = {
+  bountyCreating: false
 };
 
 const mapStateToProps = state => ({
   bountyIds: state.ethreducer.bountyIds,
   bounties: state.ethreducer.bounties,
   web3: state.ethreducer.web3,
-  contract: state.ethreducer.contract
+  contract: state.ethreducer.contract,
+  showBountyModal: state.modalreducer.bounty_modal,
+  bountyCreating: state.ethreducer.bounty_creating
 });
 
 const mapDispatchToProps = {
   fetchBountyIds: Actions.fetchBountyIds,
-  createBounty: Actions.createBounty
+  createBounty: Actions.createBounty,
+  enableModal: Actions.enableBountyModal,
+  disableModal: Actions.disableBountyModal
 };
 
 export default connect(

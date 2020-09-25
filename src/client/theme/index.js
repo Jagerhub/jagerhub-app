@@ -6,7 +6,8 @@ export default createMuiTheme({
       main: '#7A8450',
     },
     secondary: {
-      main: '#4C2E05',
+      main: '#995E0A',
+      dark: '#4C2E05',
     },
     error: {
       main: '#912F56'
@@ -22,6 +23,7 @@ export default createMuiTheme({
     },
     gray: {
       main: '#ededed'
-    }
+    },
+    money: '#66ff00'
   },
 });

@@ -1,8 +1,32 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Paper } from '@material-ui/core';
+import {
+  CircularProgress, withStyles, Card, CardContent, Typography, Container, CardHeader
+} from '@material-ui/core';
 import Actions from '../redux/actions';
+
+const styles = theme => ({
+  container: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.white.main
+  },
+  content: {
+    flexGrow: 1,
+    padding: 20
+  },
+  rewardContainer: {
+    position: 'absolute',
+    top: '2%',
+    right: '-35%',
+    color: theme.palette.money
+  }
+});
 
 class Bounty extends Component {
   componentDidMount() {
@@ -11,11 +35,43 @@ class Bounty extends Component {
   }
 
   render() {
-    const { bounty } = this.props;
+    const { bounty, classes } = this.props;
+    if (bounty === null) {
+      return (
+        <CircularProgress />
+      );
+    }
+    if (bounty.error) {
+      return (
+        <Card className={classes.container}>
+          Error loading bounty:
+          {' '}
+          {bounty.error}
+        </Card>
+      );
+    }
     return (
-      <Paper>
-        {bounty}
-      </Paper>
+      <Card className={classes.container}>
+        <CardContent className={classes.content}>
+          <Container className={classes.rewardContainer}>
+            <Typography gutterBottom component="h4">
+              {bounty.reward}
+              {' '}
+              DAI
+            </Typography>
+          </Container>
+          <Typography gutterBottom variant="h5" component="h2">
+            [
+            {bounty.tag}
+            ]
+            {' '}
+            {bounty.title}
+          </Typography>
+          <Typography>
+            {bounty.description}
+          </Typography>
+        </CardContent>
+      </Card>
     );
   }
 }
@@ -23,8 +79,13 @@ class Bounty extends Component {
 Bounty.propTypes = {
   id: PropTypes.string.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  bounty: PropTypes.any.isRequired,
-  fetchBounty: PropTypes.func.isRequired
+  bounty: PropTypes.any,
+  fetchBounty: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+Bounty.defaultProps = {
+  bounty: null
 };
 
 const mapStateToProps = (state, props) => ({
@@ -38,4 +99,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Bounty);
+)(withStyles(styles)(Bounty));

@@ -26,7 +26,6 @@ function* getMetaMaskAccounts(action) {
         return result;
       })
     );
-    console.log(accounts);
     yield put(Actions.getMetaMaskAccountsSuccess(accounts));
   } else {
     throw new Error('NO META MASK EXTENSION');
@@ -45,7 +44,7 @@ function* getBountyIds(action) {
     }
     yield put(Actions.fetchBountyIdsSuccess(data));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     yield put(Actions.fetchBountyIdsFailed(error.message));
   }
 }
@@ -61,8 +60,8 @@ function* getBounty(action) {
       .call();
     yield put(Actions.fetchBountySuccess(action.id, data));
   } catch (error) {
+    console.error(error);
     yield put(Actions.fetchBountyFailed(action.id, error));
-    throw new Error(error.message);
   }
 }
 
@@ -84,8 +83,8 @@ function* createBounty(action) {
     yield put(Actions.createBountySuccess(id));
     yield put(Actions.fetchBounty(id));
   } catch (error) {
+    console.error(error);
     yield put(Actions.createBountyFailed(error.message));
-    throw new Error(error.message);
   }
 }
 
