@@ -54,9 +54,8 @@ export const createBounty = (repoLink, reward, tag, title, desc) => ({
   desc
 });
 
-export const createBountySuccess = id => ({
-  type: ActionTypes.CREATE_BOUNTY_SUCCESS,
-  id
+export const createBountySuccess = () => ({
+  type: ActionTypes.CREATE_BOUNTY_SUCCESS
 });
 
 export const createBountyFailed = error => ({

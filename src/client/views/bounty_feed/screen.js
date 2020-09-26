@@ -2,14 +2,9 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { defaultProps } from 'prop-types';
+import PropTypes from 'prop-types';
 import Template from './template';
 import Actions from '../../redux/actions';
-
-async function getUsers(contract) {
-  const result = await contract.methods.GetUsers().call();
-  console.log(result);
-}
 
 class BountyFeed extends Component {
   constructor(props) {
@@ -18,9 +13,8 @@ class BountyFeed extends Component {
   }
 
   componentDidMount() {
-    const { web3, fetchBountyIds, contract } = this.props;
+    const { web3, fetchBountyIds } = this.props;
     web3.eth.getBlock('latest').then(console.log);
-    getUsers(contract);
     fetchBountyIds();
   }
 
@@ -35,14 +29,17 @@ class BountyFeed extends Component {
       bountyIds, showBountyModal, enableModal, disableModal, bountyCreating
     } = this.props;
     return (
-      <Template
-        createBounty={newBounty => this.createBountyWithAccount(newBounty)}
-        bountyIds={bountyIds}
-        showBountyModal={showBountyModal}
-        enableModal={enableModal}
-        disableModal={disableModal}
-        bountyCreating={bountyCreating}
-      />
+      <div>
+        <Template
+          createBounty={newBounty => this.createBountyWithAccount(newBounty)}
+          bountyIds={bountyIds}
+          showBountyModal={showBountyModal}
+          enableModal={enableModal}
+          disableModal={disableModal}
+          bountyCreating={bountyCreating}
+        />
+      </div>
+
     );
   }
 }
@@ -50,7 +47,6 @@ class BountyFeed extends Component {
 BountyFeed.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   web3: PropTypes.any.isRequired,
-  contract: PropTypes.any.isRequired,
   bountyIds: PropTypes.array.isRequired,
   fetchBountyIds: PropTypes.func.isRequired,
   createBounty: PropTypes.func.isRequired,
@@ -70,7 +66,8 @@ const mapStateToProps = state => ({
   web3: state.ethreducer.web3,
   contract: state.ethreducer.contract,
   showBountyModal: state.modalreducer.bounty_modal,
-  bountyCreating: state.ethreducer.bounty_creating
+  bountyCreating: state.ethreducer.bounty_creating,
+  account: state.ethreducer.accounts[0]
 });
 
 const mapDispatchToProps = {

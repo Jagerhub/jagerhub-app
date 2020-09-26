@@ -1,1 +1,1 @@
-export default { ContractAddress: '0xC82cD464c3B47B59049508Deb0d91Dcc6da9738A' };
+export default { ContractAddress: '0x4A7D31A02F29ADe9e0618Ea53735f1609dE15Fa5' };

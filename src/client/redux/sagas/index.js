@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/prefer-default-export */
 import {
-  put, takeLatest, all, select, takeEvery
+  put, takeLatest, all, select, takeEvery, delay
 } from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import Actions from '../actions';
@@ -50,8 +50,6 @@ function* getBountyIds(action) {
 }
 
 function* getBounty(action) {
-  console.log('---------GET BOUNTY--------');
-  console.log('action.id');
   try {
     const contract = yield select(getContract);
     const data = yield contract
@@ -79,9 +77,14 @@ function* createBounty(action) {
         action.title,
         action.desc
       )
-      .send({ from: accounts[0] });
+      .send({ from: accounts[0] })
+      .on('reciept', res => res);
+    console.log('--------- CREATE RESULT -----------');
+    console.log(id);
+    yield delay(1000);
     yield put(Actions.createBountySuccess(id));
-    yield put(Actions.fetchBounty(id));
+    yield put(Actions.disableBountyModal());
+    yield put(Actions.fetchBountyIds());
   } catch (error) {
     console.error(error);
     yield put(Actions.createBountyFailed(error.message));

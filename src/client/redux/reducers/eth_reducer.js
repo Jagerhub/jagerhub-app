@@ -14,7 +14,6 @@ const initState = {
 
 export default function (state = initState, action) {
   let newBounties = null;
-  let newBountyIds = null;
   switch (action.type) {
     case ActionTypes.GET_METAMASK_ACCOUNTS_SUCCESS:
       return {
@@ -65,10 +64,8 @@ export default function (state = initState, action) {
         bounty_creating: true
       };
     case ActionTypes.CREATE_BOUNTY_SUCCESS:
-      newBountyIds = [action.id, ...state.bountyIds];
       return {
         ...state,
-        bountyIds: newBountyIds,
         bounty_creating: false
       };
     case ActionTypes.CREATE_BOUNTY_FAILED:
