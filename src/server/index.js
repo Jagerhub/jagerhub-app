@@ -1,9 +1,25 @@
+const GithubWebHook = require('express-github-webhook');
+
+const webhookHandler = GithubWebHook({ path: '/api/webhook', secret: 'secret' });
 const express = require('express');
-const os = require('os');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(express.static('dist'));
-app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
+app.use(bodyParser.json());
+app.use(webhookHandler);
+
+const tagRegex = /\[(.*?)\]/;
+
+webhookHandler.on('pull_request', (repo, data) => {
+  if (data.action !== 'closed' || !data.pull_request.merged) {
+    return false;
+  }
+  const tag = data.pull_request.title.match(tagRegex);
+  if (!tag) {
+    return false;
+  }
+});
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

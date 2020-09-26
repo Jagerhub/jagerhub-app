@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import bounties from './bounties';
+import ethreducer from './eth_reducer';
+import modalreducer from './modal_reducer';
 
-export default combineReducers({ bounties });
+export default combineReducers({ ethreducer, modalreducer });
