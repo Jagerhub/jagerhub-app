@@ -1,4 +1,4 @@
 module.exports = {
-  ContractAddress: '0xfAF46EeC15041397506e021F6Fc8e522096b5a9D',
+  ContractAddress: '0x3dc72aC479F349EEcad0492B668D2db1B0Df69b9',
   DaiAddress: '0x4dC966317B2c55105FAd4835F651022aCD632120'
 };

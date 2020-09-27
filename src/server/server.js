@@ -10,11 +10,10 @@ const app = express();
 app.use(express.static('dist'));
 app.use(bodyParser.json());
 app.use(webhookHandler);
-
+const contract = Web3Conn.Contract();
 const tagRegex = /\[(.*?)\]/;
 
 app.get('/api/test', (req, res) => {
-  const contract = Web3Conn.Contract();
   contract
     .GetRepoBounties('link')
     .then((result) => {
@@ -32,9 +31,17 @@ webhookHandler.on('pull_request', (repo, data) => {
     return false;
   }
   const tag = data.pull_request.title.match(tagRegex);
+  console.log(`recieved tag: ${tag[1]}`);
   if (!tag) {
     return false;
   }
+  const repoName = data.repository.full_name;
+  const prId = data.pull_request.id;
+  contract
+    .requestBountyComplete(repoName, prId)
+    .then((result) => {
+      console.log(result);
+    });
 });
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
