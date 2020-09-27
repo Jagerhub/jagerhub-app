@@ -66,8 +66,7 @@ const mapStateToProps = state => ({
   web3: state.ethreducer.web3,
   contract: state.ethreducer.contract,
   showBountyModal: state.modalreducer.bounty_modal,
-  bountyCreating: state.ethreducer.bounty_creating,
-  account: state.ethreducer.accounts[0]
+  bountyCreating: state.ethreducer.bounty_creating
 });
 
 const mapDispatchToProps = {
