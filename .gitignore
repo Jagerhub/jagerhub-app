@@ -1,5 +1,11 @@
 .vscode
 node_modules
-dist
+# dist
 *.log
 yarn.lock
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+secrets
+.DS_store

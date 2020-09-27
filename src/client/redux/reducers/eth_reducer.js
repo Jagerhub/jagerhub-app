@@ -1,12 +1,13 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-named-as-default-member */
-import Web3Connection, { Contract } from '../../web3_connection';
+import Web3Connection, { Contract, DaiContract } from '../../web3_connection';
 import ActionTypes from '../actions/action-types';
 
 const initState = {
   web3: Web3Connection(),
   contract: Contract(),
+  daiContract: DaiContract(),
   accounts: [],
   bountyIds: [],
   bounties: {}

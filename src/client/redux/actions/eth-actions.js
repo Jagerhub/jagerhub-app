@@ -1,5 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import ActionTypes from './action-types';
+// DAI actions
+export const approveTransaction = amount => ({
+  type: ActionTypes.APPROVE_TRANSACTION,
+  amount
+});
 // MetaMask actions
 export const getMetaMaskAccounts = callback => ({
   type: ActionTypes.GET_METAMASK_ACCOUNTS,

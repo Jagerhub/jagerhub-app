@@ -1,1 +1,4 @@
-export default { ContractAddress: '0x4A7D31A02F29ADe9e0618Ea53735f1609dE15Fa5' };
+module.exports = {
+  ContractAddress: '0xfAF46EeC15041397506e021F6Fc8e522096b5a9D',
+  DaiAddress: '0x4dC966317B2c55105FAd4835F651022aCD632120'
+};

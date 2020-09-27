@@ -1,15 +1,18 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/prefer-default-export */
 import {
-  put, takeLatest, all, select, takeEvery, delay
+  put, takeLatest, all, select, takeEvery, delay, take
 } from 'redux-saga/effects';
 import ActionTypes from '../actions/action-types';
 import Actions from '../actions';
+import Constants from '../../constants';
 
 // SELECTORS
 export const getWeb3 = state => state.ethreducer.web3;
 
 export const getContract = state => state.ethreducer.contract;
+
+export const getDAIContract = state => state.ethreducer.daiContract;
 
 export const getAccounts = state => state.ethreducer.accounts;
 
@@ -29,6 +32,24 @@ function* getMetaMaskAccounts(action) {
     yield put(Actions.getMetaMaskAccountsSuccess(accounts));
   } else {
     throw new Error('NO META MASK EXTENSION');
+  }
+}
+
+function* approveTransaction(action) {
+  try {
+    let accounts = yield select(getAccounts);
+    if (accounts.length === 0) {
+      yield put(Actions.getMetaMaskAccounts());
+      yield take(ActionTypes.GET_METAMASK_ACCOUNTS_SUCCESS);
+      accounts = yield select(getAccounts);
+    }
+    const dai = yield select(getDAIContract);
+    const resp = yield dai.methods
+      .transfer(Constants.ContractAddress, action.amount)
+      .call({ from: accounts[0] });
+    console.log(resp);
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -66,8 +87,14 @@ function* getBounty(action) {
 // eslint-disable-next-line no-unused-vars
 function* createBounty(action) {
   try {
+    let accounts = yield select(getAccounts);
+    if (accounts.length === 0) {
+      yield put(Actions.getMetaMaskAccounts());
+      yield take(ActionTypes.GET_METAMASK_ACCOUNTS_SUCCESS);
+      accounts = yield select(getAccounts);
+    }
     const contract = yield select(getContract);
-    const accounts = yield select(getAccounts);
+    yield put(Actions.approveTransaction(action.reward));
     const id = yield contract
       .methods
       .CreateBounty(
@@ -79,8 +106,6 @@ function* createBounty(action) {
       )
       .send({ from: accounts[0] })
       .on('reciept', res => res);
-    console.log('--------- CREATE RESULT -----------');
-    console.log(id);
     yield delay(1000);
     yield put(Actions.createBountySuccess(id));
     yield put(Actions.disableBountyModal());
@@ -92,6 +117,10 @@ function* createBounty(action) {
 }
 
 // Action watchers
+function* watchApproveTransaction() {
+  yield takeLatest(ActionTypes.APPROVE_TRANSACTION, approveTransaction);
+}
+
 function* watchMetaMaskAccounts() {
   yield takeLatest(ActionTypes.GET_METAMASK_ACCOUNTS, getMetaMaskAccounts);
 }
@@ -105,15 +134,12 @@ function* watchGetBounty() {
 }
 
 function* watchCreateBounty() {
-  const accounts = yield select(getAccounts);
-  if (accounts.length === 0) {
-    yield put(Actions.getMetaMaskAccounts());
-  }
   yield takeLatest(ActionTypes.CREATE_BOUNTY, createBounty);
 }
 
 export default function* rootSaga() {
   yield all([
+    watchApproveTransaction(),
     watchGetBountyIds(),
     watchGetBounty(),
     watchMetaMaskAccounts(),
