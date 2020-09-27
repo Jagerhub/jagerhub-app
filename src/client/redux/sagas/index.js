@@ -46,15 +46,9 @@ function* approveTransaction(action) {
     }
     const dai = yield select(getDAIContract);
     const resp = yield dai.methods
-<<<<<<< HEAD
       .transfer(Constants.ContractAddress, web3.utils.toWei(action.amount.toString(), 'ether'))
       .send({ from: accounts[0] });
     console.log(action.amount.toString());
-=======
-      .transfer(Constants.ContractAddress, web3.utils.toWei(String(action.amount)))
-      .call({ from: accounts[0] });
-    console.log(resp);
->>>>>>> 087aba95223372fa85cf722be714ceda6781e3c7
   } catch (error) {
     console.error(error);
   }
