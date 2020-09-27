@@ -45,7 +45,7 @@ function* approveTransaction(action) {
     }
     const dai = yield select(getDAIContract);
     const resp = yield dai.methods
-      .approve(Constants.ContractAddress, action.amount)
+      .transfer(Constants.ContractAddress, action.amount)
       .call({ from: accounts[0] });
     console.log(resp);
   } catch (error) {
@@ -95,7 +95,6 @@ function* createBounty(action) {
     }
     const contract = yield select(getContract);
     yield put(Actions.approveTransaction(action.reward));
-    yield delay(20000);
     const id = yield contract
       .methods
       .CreateBounty(
