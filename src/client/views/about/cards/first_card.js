@@ -31,20 +31,6 @@ export default function Album() {
             JägerHub is a distributed platform where you can hire talent for your opensource
             projects without going through time consuming legal hurdles or even speaking to them.
           </Typography>
-          <div className={classes.heroButtons}>
-            <Grid container spacing={2} justify="center">
-              <Grid item>
-                <Button variant="contained" color="primary">
-                  Main call to action
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="outlined" color="primary">
-                  Secondary action
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
         </Container>
       </div>
     </React.Fragment>

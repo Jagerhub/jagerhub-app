@@ -37,6 +37,7 @@ function* getMetaMaskAccounts(action) {
 
 function* approveTransaction(action) {
   try {
+    const web3 = yield select(getWeb3);
     let accounts = yield select(getAccounts);
     if (accounts.length === 0) {
       yield put(Actions.getMetaMaskAccounts());
@@ -45,9 +46,9 @@ function* approveTransaction(action) {
     }
     const dai = yield select(getDAIContract);
     const resp = yield dai.methods
-      .transfer(Constants.ContractAddress, action.amount)
-      .call({ from: accounts[0] });
-    console.log(resp);
+      .transfer(Constants.ContractAddress, web3.utils.toWei(action.amount.toString(), 'ether'))
+      .send({ from: accounts[0] });
+    console.log(action.amount.toString());
   } catch (error) {
     console.error(error);
   }

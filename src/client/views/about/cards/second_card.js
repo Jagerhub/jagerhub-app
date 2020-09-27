@@ -1,37 +1,35 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { Divider } from '@material-ui/core';
+import Image from 'material-ui-image';
+
+import CreateButton from '../../../../../public/create_button.png';
+import webhook1 from '../../../../../public/webhook1.png';
+import webhook2 from '../../../../../public/webhook2.png';
+import webhook3 from '../../../../../public/webhook3.png';
+
 
 const useStyles = makeStyles(theme => ({
-  icon: {
-    marginRight: theme.spacing(2),
+  textContent: {
+    color: theme.palette.white,
+    padding: theme.spacing(8, 0, 6),
   },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+  paragraph: {
+    fontSize: 22
   },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+  divider: {
+    paddingTop: 2,
+    backgroundColor: theme.palette.secondary.main
   },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
+  divWithMargin: {
+    marginTop: '100px',
+    paddingTop: 2,
+    backgroundColor: theme.palette.secondary.main
   }
-}));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+}));
 
 export default function Album() {
   const classes = useStyles();
@@ -39,37 +37,54 @@ export default function Album() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container spacing={4}>
-          {cards.map(card => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image="https://source.unsplash.com/random"
-                  title="Image title"
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Heading
-                  </Typography>
-                  <Typography>
-                    This is a media card. You can use this section to describe the content.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    View
-                  </Button>
-                  <Button size="small" color="primary">
-                    Edit
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <div className={classes.textContent}>
+        <Typography color="inherit" component="h1" variant="h2">How does it work...</Typography>
+        <Divider className={classes.divider} variant="middle" />
+        <Typography color="inherit" component="h1" variant="h4">As a Jäger?</Typography>
+        <Divider className={classes.divider} variant="middle" />
+        <Typography className={classes.paragraph} align="center" color="inherit" paragraph>
+          Go to the repo in the bounty. Make a branch and start coding!
+        </Typography>
+        <Typography className={classes.paragraph} align="center" color="inherit" paragraph>
+          When you're done with the feature, make a pull request with the bounty's pr tag in the title and your wallet id in the body and you'll get paid!
+        </Typography>
+        <Divider className={classes.divWithMargin} variant="middle" />
+        <Typography color="inherit" component="h1" variant="h4">As a repository owner?</Typography>
+        <Divider className={classes.divider} variant="middle" />
+        <Typography className={classes.paragraph} align="center" color="inherit" paragraph>
+          You must have the MetaMask Extension installed.
+          Then you can create a bounty through the UI.
+        </Typography>
+        <img
+          aspectRatio={4 / 1}
+          alt="Create Bounty Button"
+          src={CreateButton}
+          style={{ maxWidth: '80%' }}
+        />
+        <Typography className={classes.paragraph} align="center" color="inherit" paragraph>
+          Then you have to set a webhook with our webhook url for 'pull requests' on you repo's page.
+        </Typography>
+        <img
+          aspectRatio={4 / 1}
+          alt="Create Bounty Button"
+          src={webhook1}
+          style={{ maxWidth: '80%' }}
+        />
+        <img
+          aspectRatio={4 / 1}
+          alt="Create Bounty Button"
+          src={webhook2}
+          style={{ maxWidth: '80%' }}
+        />
+        <img
+          aspectRatio={4 / 1}
+          alt="Create Bounty Button"
+          src={webhook3}
+          style={{ maxWidth: '80%' }}
+        />
+
+      </div>
+
     </React.Fragment>
   );
 }
